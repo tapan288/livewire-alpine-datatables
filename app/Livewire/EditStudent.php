@@ -3,59 +3,39 @@
 namespace App\Livewire;
 
 use App\Models\Classes;
-use App\Models\Section;
 use App\Models\Student;
 use Livewire\Component;
 use Livewire\Attributes\Validate;
+use App\Livewire\Forms\UpdateStudentForm;
 
 class EditStudent extends Component
 {
     public Student $student;
 
-    #[Validate('required')]
-    public $name;
-
-    public $email;
+    public UpdateStudentForm $form;
 
     #[Validate('required')]
     public $class_id;
 
-    #[Validate('required')]
-    public $section_id;
-
-    public $sections = [];
-
     public function mount()
     {
-        $this->fill($this->student->only([
-            'name',
-            'email',
-            'class_id',
-            'section_id',
-        ]));
+        $this->form->setStudent($this->student);
 
-        $this->sections = Section::where('class_id', $this->class_id)->get();
+        $this->fill($this->student->only([
+            'class_id',
+        ]));
     }
 
     public function updateStudent()
     {
-        $this->validate([
-            'email' => 'required|email|unique:students,email,' . $this->student->id,
-        ]);
-
-        $this->student->update([
-            'name' => $this->name,
-            'email' => $this->email,
-            'class_id' => $this->class_id,
-            'section_id' => $this->section_id,
-        ]);
+        $this->form->updateStudent($this->class_id);
 
         return redirect(route('students.index'));
     }
 
     public function updatedClassId($value)
     {
-        $this->sections = Section::where('class_id', $value)->get();
+        $this->form->setSections($value);
     }
 
     public function render()
