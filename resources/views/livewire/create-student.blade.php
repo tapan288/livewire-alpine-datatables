@@ -17,10 +17,10 @@
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                                 <input type="text" id="name" wire:model="form.name"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('name') text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300 @enderror
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('form.name') text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300 @enderror
 
                                     " />
-                                @error('name')
+                                @error('form.name')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -29,8 +29,8 @@
                                 <label for="email" class="block text-sm font-medium text-gray-700">Email
                                     Address</label>
                                 <input type="text" wire:model="form.email" id="email" autocomplete="email"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('email') text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300 @enderror" />
-                                @error('email')
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('form.email') text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300 @enderror" />
+                                @error('form.email')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -54,7 +54,7 @@
                             <div class="col-span-6 sm:col-span-3">
                                 <label for="section_id" class="block text-sm font-medium text-gray-700">Section</label>
                                 <select id="section_id" wire:model="form.section_id"
-                                    class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('section_id') text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300 @enderror">
+                                    class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('form.section_id') text-red-900 focus:ring-red-500 focus:border-red-500 border-red-300 @enderror">
                                     <option value="">Select a Section</option>
                                     @foreach ($form->sections as $section)
                                         <option value="{{ $section->id }}">
@@ -62,7 +62,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('section_id')
+                                @error('form.section_id')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>

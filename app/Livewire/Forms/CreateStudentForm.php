@@ -22,8 +22,6 @@ class CreateStudentForm extends Form
 
     public function storeStudent($class_id)
     {
-        $this->validate();
-
         Student::create([
             'name' => $this->name,
             'email' => $this->email,
