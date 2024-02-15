@@ -41,6 +41,8 @@ class UpdateStudentForm extends Form
             'class_id' => $class_id,
             'section_id' => $this->section_id,
         ]);
+
+        return $this->redirect(route('students.index'), navigate: true);
     }
 
     public function setSections($class_id)
