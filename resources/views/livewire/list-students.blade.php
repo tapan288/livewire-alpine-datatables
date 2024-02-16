@@ -19,6 +19,19 @@
                 </div>
             </div>
 
+            <div class="flex flex-col justify-between sm:flex-row mt-6">
+                <div class="relative text-sm text-gray-800 col-span-3">
+                    <div
+                        class="absolute pl-2 left-0 top-0 bottom-0 flex items-center pointer-events-none text-gray-500">
+                        <x-icons.magnifying-glass />
+                    </div>
+
+                    <input wire:model.live.debounce.500ms="search" type="text" placeholder="Search students data..."
+                        id="search" autocomplete="off"
+                        class="block rounded-lg border-0 py-2 pl-10 text-gray-900 ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+            </div>
+
             <div class="mt-8 flex flex-col">
                 {{-- <x-auth-session-status class="mb-4" :status="session('status')" /> --}}
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
