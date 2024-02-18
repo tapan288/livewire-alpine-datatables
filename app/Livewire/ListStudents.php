@@ -15,6 +15,8 @@ class ListStudents extends Component
 
     public string $sortColumn = 'created_at', $sortDirection = 'desc';
 
+    public array $selectedStudentIds = [];
+
     public function render()
     {
         $query = Student::query();
@@ -41,7 +43,6 @@ class ListStudents extends Component
             $this->sortDirection = 'asc';
             $this->sortColumn = $column;
         }
-
     }
 
     public function applySearch(Builder $query): Builder
@@ -50,9 +51,20 @@ class ListStudents extends Component
             ->orWhere('email', 'like', '%' . $this->search . '%');
     }
 
-    public function deleteStudent($studentId)
+    public function deleteStudent(Student $student)
     {
-        Student::find($studentId)->delete();
+        // Authorization check
+
+        $student->delete();
+    }
+
+    public function deleteStudents()
+    {
+        $students = Student::find($this->selectedStudentIds);
+
+        foreach ($students as $student) {
+            $this->deleteStudent($student);
+        }
     }
 
     public function queryString()
