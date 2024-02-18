@@ -13,7 +13,7 @@ class ListStudents extends Component
 
     public string $search = '';
 
-    public string $sortColumn = 'id', $sortDirection = 'desc';
+    public string $sortColumn = 'created_at', $sortDirection = 'desc';
 
     public function render()
     {
@@ -39,9 +39,9 @@ class ListStudents extends Component
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
             $this->sortDirection = 'asc';
+            $this->sortColumn = $column;
         }
 
-        $this->sortColumn = $column;
     }
 
     public function applySearch(Builder $query): Builder
@@ -53,5 +53,13 @@ class ListStudents extends Component
     public function deleteStudent($studentId)
     {
         Student::find($studentId)->delete();
+    }
+
+    public function queryString()
+    {
+        return [
+            'sortColumn',
+            'sortDirection',
+        ];
     }
 }
