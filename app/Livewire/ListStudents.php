@@ -13,18 +13,38 @@ class ListStudents extends Component
 
     public string $search = '';
 
+    public string $sortColumn = 'id', $sortDirection = 'desc';
+
     public function render()
     {
         $query = Student::query();
 
         $query = $this->applySearch($query);
 
+        $query = $this->applySort($query);
+
         return view('livewire.list-students', [
             'students' => $query->paginate(10),
         ]);
     }
 
-    public function applySearch(Builder $query)
+    protected function applySort(Builder $query): Builder
+    {
+        return $query->orderBy($this->sortColumn, $this->sortDirection);
+    }
+
+    public function sortBy(string $column)
+    {
+        if ($this->sortColumn === $column) {
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortColumn = $column;
+    }
+
+    public function applySearch(Builder $query): Builder
     {
         return $query->where('name', 'like', '%' . $this->search . '%')
             ->orWhere('email', 'like', '%' . $this->search . '%');
