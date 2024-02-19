@@ -6,6 +6,7 @@ use App\Models\Student;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Exports\StudentsExport;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 
 class ListStudents extends Component
@@ -66,6 +67,11 @@ class ListStudents extends Component
         foreach ($students as $student) {
             $this->deleteStudent($student);
         }
+
+        Notification::make()
+            ->title('Selected Records deleted Successfully')
+            ->success()
+            ->send();
     }
 
     public function export()
