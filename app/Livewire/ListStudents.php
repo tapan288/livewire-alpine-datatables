@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Student;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Exports\StudentsExport;
 use Illuminate\Database\Eloquent\Builder;
 
 class ListStudents extends Component
@@ -65,6 +66,11 @@ class ListStudents extends Component
         foreach ($students as $student) {
             $this->deleteStudent($student);
         }
+    }
+
+    public function export()
+    {
+        return (new StudentsExport($this->selectedStudentIds))->download(now() . ' - students.xlsx');
     }
 
     public function queryString()

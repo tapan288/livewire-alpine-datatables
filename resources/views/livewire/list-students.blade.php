@@ -50,7 +50,7 @@
                         </form>
                     </div>
                     <div class="hidden sm:flex">
-                        <form>
+                        <form wire:submit="export">
                             <button type="submit"
                                 class="flex items-center gap-2 rounded-lg border px-3 py-1.5 bg-white font-medium text-md text-gray-700 hover:bg-gray-200">
                                 <x-icons.arrow-down-tray />
