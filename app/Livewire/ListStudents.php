@@ -27,7 +27,7 @@ class ListStudents extends Component
 
         $query = $this->applySort($query);
 
-        $students = $query->paginate(10);
+        $students = $query->paginate(5);
 
         $this->studentIdsOnPage = $students->map(fn($student) => (string) $student->id)->toArray();
 
