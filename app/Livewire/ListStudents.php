@@ -17,7 +17,7 @@ class ListStudents extends Component
 
     public string $sortColumn = 'created_at', $sortDirection = 'desc';
 
-    public array $selectedStudentIds = [];
+    public array $selectedStudentIds = [], $studentIdsOnPage = [];
 
     public function render()
     {
@@ -27,8 +27,12 @@ class ListStudents extends Component
 
         $query = $this->applySort($query);
 
+        $students = $query->paginate(10);
+
+        $this->studentIdsOnPage = $students->map(fn($student) => (string) $student->id)->toArray();
+
         return view('livewire.list-students', [
-            'students' => $query->paginate(10),
+            'students' => $students,
         ]);
     }
 
