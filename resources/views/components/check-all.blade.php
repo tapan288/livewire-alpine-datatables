@@ -7,12 +7,18 @@
             return {
                 init() {
                     this.$wire.watch('selectedStudentIds', () => {
-                        this.updateCheckAllState()
-                    })
+                            this.updateCheckAllState()
+                        }),
+                        this.$wire.watch('studentIdsOnPage', () => {
+                            this.updateCheckAllState()
+                        })
                 },
                 pageIsSelected() {
                     return this.$wire.studentIdsOnPage.every(id => this.$wire.selectedStudentIds.includes(
                         id));
+                },
+                pageIsEmpty() {
+                    return this.$wire.selectedStudentIds.length === 0;
                 },
                 handleChange(e) {
                     e.target.checked ? this.selectAll() : this.deselectAll()
@@ -28,9 +34,13 @@
                 },
                 updateCheckAllState() {
                     if (this.pageIsSelected()) {
+                        this.$refs.checkAllCheckbox.indeterminate = false;
                         this.$refs.checkAllCheckbox.checked = true;
-                    } else {
+                    } else if (this.pageIsEmpty()) {
                         this.$refs.checkAllCheckbox.checked = false;
+                        this.$refs.checkAllCheckbox.indeterminate = false;
+                    } else {
+                        this.$refs.checkAllCheckbox.indeterminate = true;
                     }
                 }
             }
