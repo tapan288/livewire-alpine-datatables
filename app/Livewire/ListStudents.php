@@ -3,7 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\Student;
+use App\Traits\Sortable;
 use Livewire\Component;
+use App\Traits\Searchable;
 use Livewire\WithPagination;
 use App\Exports\StudentsExport;
 use Filament\Notifications\Notification;
@@ -11,13 +13,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ListStudents extends Component
 {
-    use WithPagination;
+    use WithPagination, Searchable, Sortable;
 
-    public string $search = '';
-
-    public string $sortColumn = 'created_at', $sortDirection = 'desc';
-
-    public array $selectedStudentIds = [], $studentIdsOnPage = [], $allStudentIds = [];
+    public array $selectedStudentIds = [],
+    $studentIdsOnPage = [],
+    $allStudentIds = [];
 
     public function render()
     {
@@ -27,36 +27,20 @@ class ListStudents extends Component
 
         $query = $this->applySort($query);
 
-        $this->allStudentIds = $query->pluck('id')->map(fn($id) => (string) $id)->toArray();
+        $this->allStudentIds = $query->
+            pluck('id')
+            ->map(fn($id) => (string) $id)
+            ->toArray();
 
         $students = $query->paginate(5);
 
-        $this->studentIdsOnPage = $students->map(fn($student) => (string) $student->id)->toArray();
+        $this->studentIdsOnPage = $students
+            ->map(fn($student) => (string) $student->id)
+            ->toArray();
 
         return view('livewire.list-students', [
             'students' => $students,
         ]);
-    }
-
-    protected function applySort(Builder $query): Builder
-    {
-        return $query->orderBy($this->sortColumn, $this->sortDirection);
-    }
-
-    public function sortBy(string $column)
-    {
-        if ($this->sortColumn === $column) {
-            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            $this->sortDirection = 'asc';
-            $this->sortColumn = $column;
-        }
-    }
-
-    public function applySearch(Builder $query): Builder
-    {
-        return $query->where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%');
     }
 
     public function deleteStudent(Student $student)
@@ -82,14 +66,7 @@ class ListStudents extends Component
 
     public function export()
     {
-        return (new StudentsExport($this->selectedStudentIds))->download(now() . ' - students.xlsx');
-    }
-
-    public function queryString()
-    {
-        return [
-            'sortColumn',
-            'sortDirection',
-        ];
+        return (new StudentsExport($this->selectedStudentIds))
+            ->download(now() . ' - students.xlsx');
     }
 }
