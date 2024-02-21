@@ -40,6 +40,7 @@
                         <div class="flex items-center px-3">
                             <div class="h-[75%] w-[1px] bg-gray-300"></div>
                         </div>
+                        <x-check-all-button />
                         <form wire:submit="deleteStudents"
                             wire:confirm="Are you sure you want to delete these Records?">
                             <button type="submit"
